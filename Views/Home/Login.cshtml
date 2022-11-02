@@ -1,0 +1,58 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div id="main">
+    <div class="row">
+        <div class="col p-3 rounded left-container">
+            <h1 class="heading fs-4 fw-bold">CƠ SỞ DỮ LIỆU KÊ KHAI ĐÁNH GIÁ</h1>
+            <p class="description px-3">Hệ thống quản lý kê khai giá dịch vụ kỹ thuật của các cơ quan khám chữa bệnh, phòng khám và các đơn vị hành chính liên quan.</p>
+        </div>
+        <div class="col bg-light rounded ms-2 p-3">
+            <form id="form" action="" method="POST">
+                <div id="username"></div>
+                <div id="password"></div>
+                <div id="button" class="mt-3 fw-bold"></div>
+            </form>
+            @* <div>Test</div> *@
+        </div>
+        <a href="#" class="text-end text-light text-decoration-none mt-3">Quên tài khoản hoặc mật khẩu?</a>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $("#username").dxTextBox({
+            label: "Tên đăng nhập",
+            showClearButton: true,
+            labelMode: "floating"
+        });
+        $("#password").dxTextBox({
+            label: "Mật khẩu",
+            showClearButton: true,
+            labelMode: "floating",
+            mode: "password"
+        });
+        $('#form').on('submit', (e) => {
+            DevExpress.ui.notify({
+            message: 'Bạn đã ấn đăng nhập',
+            position: {
+                my: 'center bottom',
+                at: 'center bottom',
+            },
+            }, 'success', 3000);
+
+            e.preventDefault();
+        });
+        $('#button').dxButton({
+            stylingMode: 'text',
+            icon: 'user',
+            text: 'ĐĂNG NHẬP',
+            type: 'default',
+            useSubmitBehavior: true,
+            width: '100%',
+        });
+    });
+
+</script>

@@ -1,0 +1,21 @@
+#main {
+    padding: 50px;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("/img/bg.jpg");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+}
+
+.left-container {
+    background-color: #d9edf6;
+}
+
+.heading {
+    color: #33718c;
+}
+
+.description {
+    color: #367396;
+}

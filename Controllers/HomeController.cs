@@ -23,7 +23,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult TextBox()
+    public IActionResult Login()
     {
         return View();
     }
