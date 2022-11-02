@@ -24,3 +24,5 @@ D:\Dev\DevExtreme\obj\Debug\net6.0\refint\DevExtreme.dll
 D:\Dev\DevExtreme\obj\Debug\net6.0\DevExtreme.pdb
 D:\Dev\DevExtreme\obj\Debug\net6.0\DevExtreme.genruntimeconfig.cache
 D:\Dev\DevExtreme\obj\Debug\net6.0\ref\DevExtreme.dll
+D:\Dev\DevExtreme\bin\Debug\net6.0\package-lock.json
+D:\Dev\DevExtreme\bin\Debug\net6.0\package.json
