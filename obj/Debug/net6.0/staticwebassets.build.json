@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "AZbJvfAIRYSZ4dzrkDnW8QSPDhRswcrel9ngsSP9ybg=",
+  "Hash": "BVJ0yP83F0RLXUeNbuvyL8lBuEet4Fzsabzf6UZeMaE=",
   "Source": "DevExtreme",
   "BasePath": "_content/DevExtreme",
   "Mode": "Default",
@@ -950,6 +950,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\fonts\\Roboto-700.woff2"
+    },
+    {
+      "Identity": "D:\\Dev\\DevExtreme\\wwwroot\\css\\form.css",
+      "SourceId": "DevExtreme",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Dev\\DevExtreme\\wwwroot\\",
+      "BasePath": "_content/DevExtreme",
+      "RelativePath": "css/form.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\form.css"
     },
     {
       "Identity": "D:\\Dev\\DevExtreme\\wwwroot\\css\\icons\\dxicons.ttf",

@@ -6,9 +6,9 @@
     <title>@ViewData["Title"] - DevExtreme</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DevExtreme.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/dx.light.css">
+    @await RenderSectionAsync("css", required: false)
 </head>
 <body>
     <header>
@@ -30,6 +30,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Form">Tìm kiếm</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -49,6 +52,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     
-    @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("js", required: false)
 </body>
 </html>
