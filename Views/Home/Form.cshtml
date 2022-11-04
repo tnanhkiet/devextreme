@@ -5,14 +5,14 @@
 <div class="p-3">
     <div class="bg-heading px-2 py-3 rounded d-flex fw-bold">Thông tin tìm kiếm</div>
     <div id="formSearch" class="pt-4 px-4"></div>
-    <div class="d-flex justify-content-center pt-3">
+    <div class="d-flex justify-content-center mt-3">
         <div id="btnSearch"></div>
         <div id="btnAdd" class="mx-2"></div>
         <div id="btnPrint"></div>
     </div>
     <div class="d-flex mt-3">
-        <div class="bg-light-gray p-2 fw-bold">Danh sách chưa gửi</div>
-        <div class="bg-light flex-grow-1 p-2">Danh sách đã gửi</div>
+        <a href="#" class="bg-light-gray p-2 fw-bold text-decoration-none text-reset">Danh sách chưa gửi</a>
+        <a href="#" class="bg-light flex-grow-1 p-2 text-decoration-none text-reset">Danh sách đã gửi</a>
     </div>
     <div id="table" class="mt-2"></div>
 </div>
@@ -25,25 +25,30 @@
 <script ype="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/dx.all.js"></script>
 <script>
-    $("#formSearch").dxForm({
-        formData: {
-        },
-        colCount: 3,
-        items: [{
-            itemType: 'group',
+    $(document).ready(function () {
+        InitDevextreme();
+    })
+    // ----------------------------------------------------------------
+    function InitDevextreme() {
+        $("#formSearch").dxForm({
+            formData: {
+            },
+            colCount: 3,
             items: [{
-                dataField: 'Đơn vị',
-                editorType: 'dxSelectBox',
-                editorOptions: {
-                    placeholder: "Lựa chọn",
-                    @* items: , *@
-            value: '',
+                itemType: 'group',
+                items: [{
+                    dataField: 'Đơn vị',
+                    editorType: 'dxSelectBox',
+                    editorOptions: {
+                        placeholder: "Lựa chọn",
+                        items: ["Đơn vị 1", "Đơn vị 2", "Đơn vị 3"],
+                value: '',
                 },
             }, {
             dataField: 'Số công văn',
         }]
         }, {
-            itemType: 'group',
+        itemType: 'group',
             items: [{
                 dataField: 'Ngày kê khai',
                 editorType: 'dxDateBox',
@@ -52,140 +57,142 @@
                 editorType: 'dxDateBox',
             }]
         }, {
-        itemType: 'group',
-        items: [{
-            dataField: 'Đến ngày',
-            editorType: 'dxDateBox',
-        }, {
-            dataField: 'Đến ngày',
-            editorType: 'dxDateBox',
-        }]
-    }]
-    });
-    // ------------------------------------------------------------------------------
-    $('#btnSearch').dxButton({
-        stylingMode: 'outlined',
-        text: 'Tìm kiếm',
-        icon: 'find',
-        type: 'success',
-        width: 130,
-        onClick() {
-            DevExpress.ui.notify('The Outlined button was clicked');
-        },
-    });
-    // ------------------------------------------------------------------------------
-    $('#btnAdd').dxButton({
-        stylingMode: 'contained',
-        text: 'Thêm mới',
-        icon: 'plus',
-        type: 'default',
-        width: 130,
-        onClick() {
-            DevExpress.ui.notify('The Outlined button was clicked');
-        },
-    });
-    // ------------------------------------------------------------------------------
-    $('#btnPrint').dxButton({
-        stylingMode: 'contained',
-        text: 'In ấn',
-        icon: 'print',
-        type: 'success',
-        width: 130,
-        onClick() {
-            DevExpress.ui.notify('The Outlined button was clicked');
-        },
-    });
-    // ------------------------------------------------------------------------------
-    $(() => {
-        $("#table").dxDataGrid({
-            onCellPrepared: function (e) {
-                if (e.rowType === 'header') {
-                    e.cellElement.css("backgroundColor", "#1f2d78");
-                    e.cellElement.css('color', "#fff");
-                }
-            },
-            dataSource: data,
-            autoExpandAll: true,
-            allowColumnReordering: true,
-            allowColumnResizing: true,
-            columnAutoWidth: true,
-            showBorders: true,
-            showRowLines: true,
-            selection: {
-                mode: 'multiple',
-                showCheckBoxesMode: 'always',
-            },
-            toolbar: {
+            itemType: 'group',
                 items: [{
-                    widget: 'dxButton',
-                    options: {
-                        location: 'before',
-                        stylingMode: 'contained',
-                        text: 'Gửi KKG',
-                        icon: 'todo',
-                        type: 'success',
-                        width: 120,
-                        height: 35,
-                        onClick() {
-                            DevExpress.ui.notify('Bạn đã ấn gửi KKG');
-                        },
-                    }
+                    dataField: 'Đến ngày',
+                    editorType: 'dxDateBox',
                 }, {
-                    widget: 'dxButton',
-                    options: {
-                        stylingMode: 'contained',
-                        text: 'Xóa',
-                        icon: 'trash',
-                        type: 'danger',
-                        width: 120,
-                        height: 35,
-                        onClick() {
-                            DevExpress.ui.notify('Bạn đã ấn xóa');
-                        },
-                    }
-                },
-                'searchPanel']
-            },
-            columns: [{
-                caption: "STT",
-                cellTemplate: function (container, options) {
-                    container.text(options.rowIndex + 1);
-                },
-            }, {
-                dataField: "file",
-                caption: ""
-            }, {
-                dataField: "soCongVan",
-                caption: "Số công văn"
-            }, {
-                dataField: "trichYeu",
-                caption: "Trích yếu"
-            }, {
-                dataField: "soDvKeKhai",
-                caption: "Số DV kê khai"
-            }, {
-                dataField: "ngayHieuLuc",
-                caption: "Ngày hiệu lực",
-                dataType: "date"
-            }, {
-                dataField: "nguyenNhan",
-                caption: "Nguyên nhân, biến động"
-            }, {
-                dataField: "chinhSach",
-                caption: "Chính sách"
-            }],
-            searchPanel: {
-                placeholder: "Tìm kiếm nhanh...",
-                width: 200,
-                visible: true
-            },
-            editing: {
-                allowUpdating: true,
-                allowDeleting: true,
-                useIcons: true,
+                    dataField: 'Đến ngày',
+                    editorType: 'dxDateBox',
+                }]
+        }]
+        });
+
+        $('#btnSearch').dxButton({
+            stylingMode: 'outlined',
+            text: 'Tìm kiếm',
+            icon: 'find',
+            type: 'success',
+            width: 130,
+            onClick() {
+                DevExpress.ui.notify('Bạn đã ấn tìm kiếm');
             },
         });
-    })
+
+        $('#btnAdd').dxButton({
+            stylingMode: 'contained',
+            text: 'Thêm mới',
+            icon: 'plus',
+            type: 'default',
+            width: 130,
+            onClick() {
+                DevExpress.ui.notify('Bạn đã ấn thêm mới');
+            },
+        });
+
+        $('#btnPrint').dxButton({
+            stylingMode: 'contained',
+            text: 'In ấn',
+            icon: 'print',
+            type: 'success',
+            width: 130,
+            onClick() {
+                DevExpress.ui.notify('Bạn đã ấn in ấn');
+            },
+        });
+
+        $(() => {
+            $("#table").dxDataGrid({
+                onCellPrepared: function (e) {
+                    if (e.rowType === 'header') {
+                        e.cellElement.css("backgroundColor", "#1f2d78");
+                        e.cellElement.css('color', "#fff");
+                    }
+                },
+                dataSource: data,
+                autoExpandAll: true,
+                allowColumnReordering: true,
+                allowColumnResizing: true,
+                columnAutoWidth: true,
+                showBorders: true,
+                showRowLines: true,
+                selection: {
+                    mode: 'multiple',
+                    showCheckBoxesMode: 'always',
+                },
+                toolbar: {
+                    items: [{
+                        location: 'before',
+                        widget: 'dxButton',
+                        options: {
+                            stylingMode: 'contained',
+                            text: 'Gửi KKG',
+                            icon: 'todo',
+                            type: 'success',
+                            width: 120,
+                            height: 35,
+                            onClick() {
+                                DevExpress.ui.notify('Bạn đã ấn gửi KKG');
+                            },
+                        }
+                    }, {
+                        location: 'before',
+                        widget: 'dxButton',
+                        options: {
+                            stylingMode: 'contained',
+                            text: 'Xóa',
+                            icon: 'trash',
+                            type: 'danger',
+                            width: 120,
+                            height: 35,
+                            onClick() {
+                                DevExpress.ui.notify('Bạn đã ấn xóa');
+                            },
+                        }
+                    },
+                        'searchPanel']
+                },
+                columns: [{
+                    caption: "STT",
+                    cellTemplate: function (container, options) {
+                        container.text(options.rowIndex + 1);
+                    },
+                }, {
+                    dataField: "file",
+                    caption: ""
+                }, {
+                    dataField: "soCongVan",
+                    caption: "Số công văn"
+                }, {
+                    dataField: "trichYeu",
+                    caption: "Trích yếu"
+                }, {
+                    dataField: "soDvKeKhai",
+                    caption: "Số DV kê khai"
+                }, {
+                    dataField: "ngayHieuLuc",
+                    caption: "Ngày hiệu lực",
+                    dataType: "date"
+                }, {
+                    dataField: "nguyenNhan",
+                    caption: "Nguyên nhân, biến động"
+                }, {
+                    dataField: "chinhSach",
+                    caption: "Chính sách"
+                }],
+                searchPanel: {
+                    placeholder: "Tìm kiếm nhanh...",
+                    width: 250,
+                    visible: true
+                },
+                editing: {
+                    allowUpdating: true,
+                    allowDeleting: true,
+                    useIcons: true,
+                },
+            });
+        })
+    }
     // ----------------------------------------------------------------
     const data = [{
         file: "",
