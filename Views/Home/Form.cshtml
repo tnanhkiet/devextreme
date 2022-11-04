@@ -4,17 +4,67 @@
 
 <div class="p-3">
     <div class="bg-heading px-2 py-3 rounded d-flex fw-bold">Thông tin tìm kiếm</div>
-    <div id="formSearch" class="pt-4 px-4"></div>
-    <div class="d-flex justify-content-center mt-3">
-        <div id="btnSearch"></div>
-        <div id="btnAdd" class="mx-2"></div>
-        <div id="btnPrint"></div>
-    </div>
+    <form action="formSearchs" Method="POST" class="mt-4 mx-4">
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <label class="control-label col text-end">Đơn vị</label>
+                    <div class="col">
+                        <div id="selectDonVi"></div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <label class="control-label col text-end">Số công văn</label>
+                    <div class="col">
+                        <div id="txtSoCongVan"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="row">
+                    <label class="control-label col text-end">Ngày kê khai</label>
+                    <div class="col">
+                        <div id="dateKeKhai"></div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <label class="control-label col text-end">Ngày công văn</label>
+                    <div class="col">
+                        <div id="dateCongVan"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="row">
+                    <label class="control-label col text-end">Đến ngày</label>
+                    <div class="col">
+                        <div id="dateKeKhaiDenNgay"></div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <label class="control-label col text-end">Đến ngày</label>
+                    <div class="col">
+                        <div id="dateCongVanDenNgay"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+            <div id="btnSearch"></div>
+            <div id="btnAdd" class="mx-2"></div>
+            <div id="btnPrint"></div>
+        </div>
+    </form>
+
     <div class="d-flex mt-3">
         <a href="#" class="bg-light-gray p-2 fw-bold text-decoration-none text-reset">Danh sách chưa gửi</a>
         <a href="#" class="bg-light flex-grow-1 p-2 text-decoration-none text-reset">Danh sách đã gửi</a>
     </div>
-    <div id="table" class="mt-2"></div>
+
+    <div id="gridContainer" class="mt-2"></div>
 </div>
 
 @section css {
@@ -30,43 +80,31 @@
     })
     // ----------------------------------------------------------------
     function InitDevextreme() {
-        $("#formSearch").dxForm({
-            formData: {
-            },
-            colCount: 3,
-            items: [{
-                itemType: 'group',
-                items: [{
-                    dataField: 'Đơn vị',
-                    editorType: 'dxSelectBox',
-                    editorOptions: {
-                        placeholder: "Lựa chọn",
-                        items: ["Đơn vị 1", "Đơn vị 2", "Đơn vị 3"],
-                value: '',
-                },
-            }, {
-            dataField: 'Số công văn',
-        }]
-        }, {
-        itemType: 'group',
-            items: [{
-                dataField: 'Ngày kê khai',
-                editorType: 'dxDateBox',
-            }, {
-                dataField: 'Ngày công văn',
-                editorType: 'dxDateBox',
-            }]
-        }, {
-            itemType: 'group',
-                items: [{
-                    dataField: 'Đến ngày',
-                    editorType: 'dxDateBox',
-                }, {
-                    dataField: 'Đến ngày',
-                    editorType: 'dxDateBox',
-                }]
-        }]
-        });
+        selectDonVi = $("#selectDonVi").dxSelectBox({
+            width: 250,
+            placeholder: "Lựa chọn",
+            items: ["Đơn vị 1", "Đơn vị 2", "Đơn vị 3"]
+        }).dxSelectBox('instance');
+
+        txtSoCongVan = $("#txtSoCongVan").dxTextBox({
+            width: 250
+        }).dxTextBox('instance');
+
+        dateKeKhai = $("#dateKeKhai").dxDateBox({
+            width: 200
+        }).dxDateBox('instance');
+
+        dateCongVan = $("#dateCongVan").dxDateBox({
+            width: 200
+        }).dxDateBox('instance');
+
+        dateKeKhaiDenNgay = $("#dateKeKhaiDenNgay").dxDateBox({
+            width: 200
+        }).dxDateBox('instance');
+
+        dateCongVanDenNgay = $("#dateCongVanDenNgay").dxDateBox({
+            width: 200
+        }).dxDateBox('instance');
 
         $('#btnSearch').dxButton({
             stylingMode: 'outlined',
@@ -102,7 +140,7 @@
         });
 
         $(() => {
-            $("#table").dxDataGrid({
+            $("#gridContainer").dxDataGrid({
                 onCellPrepared: function (e) {
                     if (e.rowType === 'header') {
                         e.cellElement.css("backgroundColor", "#1f2d78");
