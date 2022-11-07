@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "BVJ0yP83F0RLXUeNbuvyL8lBuEet4Fzsabzf6UZeMaE=",
+  "Hash": "fQEKdsB4vHYxiGPjGD+jGaAaI/qN7u+KlFemhxHKcqY=",
   "Source": "DevExtreme",
   "BasePath": "_content/DevExtreme",
   "Mode": "Default",
@@ -952,23 +952,6 @@
       "OriginalItemSpec": "wwwroot\\css\\fonts\\Roboto-700.woff2"
     },
     {
-      "Identity": "D:\\Dev\\DevExtreme\\wwwroot\\css\\form.css",
-      "SourceId": "DevExtreme",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Dev\\DevExtreme\\wwwroot\\",
-      "BasePath": "_content/DevExtreme",
-      "RelativePath": "css/form.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\form.css"
-    },
-    {
       "Identity": "D:\\Dev\\DevExtreme\\wwwroot\\css\\icons\\dxicons.ttf",
       "SourceId": "DevExtreme",
       "SourceType": "Discovered",
@@ -1069,23 +1052,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\icons\\dxiconsmaterial.woff2"
-    },
-    {
-      "Identity": "D:\\Dev\\DevExtreme\\wwwroot\\css\\login.css",
-      "SourceId": "DevExtreme",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Dev\\DevExtreme\\wwwroot\\",
-      "BasePath": "_content/DevExtreme",
-      "RelativePath": "css/login.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\login.css"
     },
     {
       "Identity": "D:\\Dev\\DevExtreme\\wwwroot\\css\\site.css",
