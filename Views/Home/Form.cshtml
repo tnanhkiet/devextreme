@@ -63,7 +63,6 @@
         <a href="#" class="bg-light-gray p-2 fw-bold text-decoration-none text-reset">Danh sách chưa gửi</a>
         <a href="#" class="bg-light flex-grow-1 p-2 text-decoration-none text-reset">Danh sách đã gửi</a>
     </div>
-
     <div id="gridContainer" class="mt-2"></div>
 </div>
 
@@ -87,19 +86,23 @@
         }).dxTextBox('instance');
 
         dateKeKhai = $("#dateKeKhai").dxDateBox({
-            width: 200
+            width: 200,
+            displayFormat: "dd/MM/yyyy"
         }).dxDateBox('instance');
 
         dateCongVan = $("#dateCongVan").dxDateBox({
-            width: 200
+            width: 200,
+            displayFormat: "dd/MM/yyyy"
         }).dxDateBox('instance');
 
         dateKeKhaiDenNgay = $("#dateKeKhaiDenNgay").dxDateBox({
-            width: 200
+            width: 200,
+            displayFormat: "dd/MM/yyyy"
         }).dxDateBox('instance');
 
         dateCongVanDenNgay = $("#dateCongVanDenNgay").dxDateBox({
-            width: 200
+            width: 200,
+            displayFormat: "dd/MM/yyyy"
         }).dxDateBox('instance');
 
         $('#btnSearch').dxButton({
@@ -109,7 +112,8 @@
             type: 'success',
             width: 130,
             onClick() {
-                DevExpress.ui.notify('Bạn đã ấn tìm kiếm');
+                txtSoCongVan = $("txtSoCongVan").val();
+                data.findIndex((data) => data.soCongVan == txtSoCongVan)
             },
         });
 
@@ -136,14 +140,19 @@
         });
 
         $(() => {
-            $("#gridContainer").dxDataGrid({
+            const dataStore = new DevExpress.data.ArrayStore({
+                key: 'id',
+                data: data,
+            });
+
+            const dataGrid = $("#gridContainer").dxDataGrid({
                 onCellPrepared: function (e) {
                     if (e.rowType === 'header') {
                         e.cellElement.css("backgroundColor", "#1f2d78");
                         e.cellElement.css('color', "#fff");
                     }
                 },
-                dataSource: data,
+                dataSource: dataStore,
                 autoExpandAll: true,
                 allowColumnReordering: true,
                 allowColumnResizing: true,
@@ -163,10 +172,15 @@
                             text: 'Gửi KKG',
                             icon: 'todo',
                             type: 'success',
+                            disabled: true,
                             width: 120,
                             height: 35,
                             onClick() {
                                 DevExpress.ui.notify('Bạn đã ấn gửi KKG');
+                                @* dataGrid.getSelectedRowKeys().forEach((key) => {
+                                    
+                                });
+                                dataGrid.refresh(); *@
                             },
                         }
                     }, {
@@ -177,14 +191,22 @@
                             text: 'Xóa',
                             icon: 'trash',
                             type: 'danger',
+                            disabled: true,
                             width: 120,
                             height: 35,
                             onClick() {
-                                DevExpress.ui.notify('Bạn đã ấn xóa');
+                                dataGrid.getSelectedRowKeys().forEach((key) => {
+                                    dataStore.remove(key);
+                                });
+                                dataGrid.refresh();
                             },
                         }
                     },
                         'searchPanel']
+                },
+                onSelectionChanged(data) {
+                    dataGrid.option('toolbar.items[0].options.disabled', !data.selectedRowsData.length);
+                    dataGrid.option('toolbar.items[1].options.disabled', !data.selectedRowsData.length);
                 },
                 columns: [{
                     caption: "STT",
@@ -206,7 +228,8 @@
                 }, {
                     dataField: "ngayHieuLuc",
                     caption: "Ngày hiệu lực",
-                    dataType: "date"
+                    dataType: "date",
+                    format: "dd/MM/yyyy"
                 }, {
                     dataField: "nguyenNhan",
                     caption: "Nguyên nhân, biến động"
@@ -224,19 +247,23 @@
                     allowDeleting: true,
                     useIcons: true,
                 },
-            });
+            }).dxDataGrid('instance');
         })
     }
     // ----------------------------------------------------------------
     const data = [{
+        id: 1,
+        @* status: 0, *@
         file: "",
         soCongVan: "0001",
         trichYeu: "Trích yếu 1",
         soDvKeKhai: "0",
-        ngayHieuLuc: "01-11-2022",
+        ngayHieuLuc: "11/01/2022",
         nguyenNhan: "Nguyên nhân 1",
         chinhSach: "Chính sách 1"
     }, {
+        id: 2,
+        @* status: 0, *@
         file: "",
         soCongVan: "0002",
         trichYeu: "Trích yếu 2",
@@ -245,6 +272,8 @@
         nguyenNhan: "Nguyên nhân 2",
         chinhSach: "Chính sách 2"
     }, {
+        id: 3,
+        @* status: 1, *@
         file: "",
         soCongVan: "0003",
         trichYeu: "Trích yếu 3",
@@ -253,6 +282,8 @@
         nguyenNhan: "Nguyên nhân 3",
         chinhSach: "Chính sách 3"
     }, {
+        id: 4,
+        @* status: 1, *@
         file: "",
         soCongVan: "0004",
         trichYeu: "Trích yếu 4",
@@ -261,5 +292,7 @@
         nguyenNhan: "Nguyên nhân 4",
         chinhSach: "Chính sách 4"
     }]
+
+    
 </script>
 }
