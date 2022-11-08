@@ -1,0 +1,71 @@
+@{
+    ViewData["Title"] = "Xem chi tiết";
+}
+<div class="pt-4 px-5">
+    <h3>Xem chi tiết</h3>
+    <div id="details" class="bg-light p-3 rounded"></div>
+</div>
+
+@section js {
+<script>
+    $(document).ready(function () {
+        getDetails();
+    })
+    //----------------------------------------------------------------
+    const data = [{
+        id: 1,
+        file: "",
+        soCongVan: "0001",
+        trichYeu: "Trích yếu 1",
+        soDvKeKhai: "0",
+        ngayHieuLuc: "11/01/2022",
+        nguyenNhan: "Nguyên nhân 1",
+        chinhSach: "Chính sách 1"
+    }, {
+        id: 2,
+        file: "",
+        soCongVan: "0002",
+        trichYeu: "Trích yếu 2",
+        soDvKeKhai: "29",
+        ngayHieuLuc: "01-15-2022",
+        nguyenNhan: "Nguyên nhân 2",
+        chinhSach: "Chính sách 2"
+    }, {
+        id: 3,
+        file: "",
+        soCongVan: "0003",
+        trichYeu: "Trích yếu 3",
+        soDvKeKhai: "17",
+        ngayHieuLuc: "03-11-2022",
+        nguyenNhan: "Nguyên nhân 3",
+        chinhSach: "Chính sách 3"
+    }, {
+        id: 4,
+        file: "",
+        soCongVan: "0004",
+        trichYeu: "Trích yếu 4",
+        soDvKeKhai: "15",
+        ngayHieuLuc: "04-17-2022",
+        nguyenNhan: "Nguyên nhân 4",
+        chinhSach: "Chính sách 4"
+    }]
+    //---------------------------------------------------------------
+    function getDetails() {
+        let url = window.location.href;
+        let queryString = url.split('?id=')[1];
+        console.log(queryString);
+        let details = data.filter(e => e.id == queryString)
+        details.forEach(detail => {
+                $('#details').append(`
+                    <p>Số công văn: ${detail.soCongVan}</p>
+                    <p>Trích yếu: ${detail.trichYeu}</p>
+                    <p>Số dịch vụ kê khai: ${detail.soDvKeKhai}</p>
+                    <p>Ngày hiệu lực: ${detail.ngayHieuLuc}</p>
+                    <p>Nguyên nhân, biến động: ${detail.nguyenNhan}</p>
+                    <p>Chính sách: ${detail.chinhSach}</p>
+                `)
+            }
+        )    
+    }
+</script>
+}

@@ -10,7 +10,7 @@
                 <div class="row">
                     <label class="control-label col text-end">Đơn vị</label>
                     <div class="col">
-                        <div id="selectDonVi"></div>
+                        <div id="cboDonVi"></div>
                     </div>
                 </div>
                 <div class="row mt-2">
@@ -25,13 +25,13 @@
                 <div class="row">
                     <label class="control-label col text-end">Ngày kê khai</label>
                     <div class="col">
-                        <div id="dateKeKhai"></div>
+                        <div id="dtNgayKeKhai"></div>
                     </div>
                 </div>
                 <div class="row mt-2">
                     <label class="control-label col text-end">Ngày công văn</label>
                     <div class="col">
-                        <div id="dateCongVan"></div>
+                        <div id="dtNgayCongVan"></div>
                     </div>
                 </div>
             </div>
@@ -40,13 +40,13 @@
                 <div class="row">
                     <label class="control-label col text-end">Đến ngày</label>
                     <div class="col">
-                        <div id="dateKeKhaiDenNgay"></div>
+                        <div id="dtNgayKeKhaiDenNgay"></div>
                     </div>
                 </div>
                 <div class="row mt-2">
                     <label class="control-label col text-end">Đến ngày</label>
                     <div class="col">
-                        <div id="dateCongVanDenNgay"></div>
+                        <div id="dtNgayCongVanDenNgay"></div>
                     </div>
                 </div>
             </div>
@@ -64,18 +64,17 @@
         <a href="#" class="bg-light flex-grow-1 p-2 text-decoration-none text-reset">Danh sách đã gửi</a>
     </div>
     <div id="gridContainer" class="mt-2"></div>
+    <div id="popup"></div>
 </div>
 
 @section js {
-<script ype="text/javascript" src="/js/jquery.min.js"></script>
-<script type="text/javascript" src="/js/dx.all.js"></script>
 <script>
     $(document).ready(function () {
         InitDevextreme();
     })
     // ----------------------------------------------------------------
     function InitDevextreme() {
-        selectDonVi = $("#selectDonVi").dxSelectBox({
+        cboDonVi = $("#cboDonVi").dxSelectBox({
             width: 250,
             placeholder: "Lựa chọn",
             items: ["Đơn vị 1", "Đơn vị 2", "Đơn vị 3"]
@@ -85,22 +84,22 @@
             width: 250
         }).dxTextBox('instance');
 
-        dateKeKhai = $("#dateKeKhai").dxDateBox({
+        dtNgayKeKhai = $("#dtNgayKeKhai").dxDateBox({
             width: 200,
             displayFormat: "dd/MM/yyyy"
         }).dxDateBox('instance');
 
-        dateCongVan = $("#dateCongVan").dxDateBox({
+        dtNgayCongVan = $("#dtNgayCongVan").dxDateBox({
             width: 200,
             displayFormat: "dd/MM/yyyy"
         }).dxDateBox('instance');
 
-        dateKeKhaiDenNgay = $("#dateKeKhaiDenNgay").dxDateBox({
+        dtNgayKeKhaiDenNgay = $("#dtNgayKeKhaiDenNgay").dxDateBox({
             width: 200,
             displayFormat: "dd/MM/yyyy"
         }).dxDateBox('instance');
 
-        dateCongVanDenNgay = $("#dateCongVanDenNgay").dxDateBox({
+        dtNgayCongVanDenNgay = $("#dtNgayCongVanDenNgay").dxDateBox({
             width: 200,
             displayFormat: "dd/MM/yyyy"
         }).dxDateBox('instance');
@@ -140,12 +139,12 @@
         });
 
         $(() => {
-            const dataStore = new DevExpress.data.ArrayStore({
+            let dataStore = new DevExpress.data.ArrayStore({
                 key: 'id',
                 data: data,
             });
 
-            const dataGrid = $("#gridContainer").dxDataGrid({
+            let dataGrid = $("#gridContainer").dxDataGrid({
                 onCellPrepared: function (e) {
                     if (e.rowType === 'header') {
                         e.cellElement.css("backgroundColor", "#1f2d78");
@@ -176,11 +175,34 @@
                             width: 120,
                             height: 35,
                             onClick() {
-                                DevExpress.ui.notify('Bạn đã ấn gửi KKG');
-                                @* dataGrid.getSelectedRowKeys().forEach((key) => {
-                                    
+                                dataGrid.getSelectedRowsData().forEach((data) => {
+                                    const newData = data
+                                    console.log(newData)
+                                    const popupContentTemplate = function() {
+                                        return $('<div>').append(
+                                            `<h5>Thông tin đã gửi:</h5>
+                                            <p>Số công văn: ${newData.soCongVan}</p>
+                                            <p>Trích yếu: ${newData.trichYeu}</p>
+                                            <p>Số dịch vụ kê khai: ${newData.soDvKeKhai}</p>
+                                            <p>Ngày hiệu lực: ${newData.ngayHieuLuc}</p>
+                                            <p>Nguyên nhân, biến động: ${newData.nguyenNhan}</p>
+                                            <p>Chính sách: ${newData.chinhSach}</p>`
+                                        )
+                                    }
+                                    $("#popup").dxPopup({
+                                        contentTemplate: popupContentTemplate,
+                                        width: 300,
+                                        height: 280,
+                                        visible: true,
+                                        hideOnOutsideClick: true
+                                    });
+                                    const popup = $("#popup").dxPopup("instance");
+                                    popup.show();
                                 });
-                                dataGrid.refresh(); *@
+                                dataGrid.getSelectedRowKeys().forEach((key) => {
+                                    dataStore.remove(key);
+                                });
+                                dataGrid.refresh();
                             },
                         }
                     }, {
@@ -210,6 +232,7 @@
                 },
                 columns: [{
                     caption: "STT",
+                    allowEditing: false,
                     cellTemplate: function (container, options) {
                         container.text(options.rowIndex + 1);
                     },
@@ -236,6 +259,17 @@
                 }, {
                     dataField: "chinhSach",
                     caption: "Chính sách"
+                }, {
+                    type: "buttons",
+                    buttons: ["edit", "delete", {
+                        text: "Xem",
+                        icon: "info",
+                        onClick(e) {
+                            let id = e.row.data.id;
+                            console.log(id)
+                            window.open('Details/?id=' + id,'_blank');
+                        }
+                    }]
                 }],
                 searchPanel: {
                     placeholder: "Tìm kiếm nhanh...",
@@ -245,6 +279,7 @@
                 editing: {
                     allowUpdating: true,
                     allowDeleting: true,
+                    mode:"popup",
                     useIcons: true,
                 },
             }).dxDataGrid('instance');
@@ -253,7 +288,6 @@
     // ----------------------------------------------------------------
     const data = [{
         id: 1,
-        @* status: 0, *@
         file: "",
         soCongVan: "0001",
         trichYeu: "Trích yếu 1",
@@ -263,7 +297,6 @@
         chinhSach: "Chính sách 1"
     }, {
         id: 2,
-        @* status: 0, *@
         file: "",
         soCongVan: "0002",
         trichYeu: "Trích yếu 2",
@@ -273,7 +306,6 @@
         chinhSach: "Chính sách 2"
     }, {
         id: 3,
-        @* status: 1, *@
         file: "",
         soCongVan: "0003",
         trichYeu: "Trích yếu 3",
@@ -283,7 +315,6 @@
         chinhSach: "Chính sách 3"
     }, {
         id: 4,
-        @* status: 1, *@
         file: "",
         soCongVan: "0004",
         trichYeu: "Trích yếu 4",
@@ -292,7 +323,5 @@
         nguyenNhan: "Nguyên nhân 4",
         chinhSach: "Chính sách 4"
     }]
-
-    
 </script>
 }
