@@ -176,33 +176,45 @@
                             height: 35,
                             onClick() {
                                 dataGrid.getSelectedRowsData().forEach((data) => {
-                                    const newData = data
-                                    console.log(newData)
-                                    const popupContentTemplate = function() {
-                                        return $('<div>').append(
-                                            `<h5>Thông tin đã gửi:</h5>
-                                            <p>Số công văn: ${newData.soCongVan}</p>
-                                            <p>Trích yếu: ${newData.trichYeu}</p>
-                                            <p>Số dịch vụ kê khai: ${newData.soDvKeKhai}</p>
-                                            <p>Ngày hiệu lực: ${newData.ngayHieuLuc}</p>
-                                            <p>Nguyên nhân, biến động: ${newData.nguyenNhan}</p>
-                                            <p>Chính sách: ${newData.chinhSach}</p>`
-                                        )
+                                    if(data.status === 0) {
+                                        $("#popup").dxPopup({
+                                            contentTemplate: "Bạn không thể gửi thông tin này!",
+                                            title: "Lỗi không thể gửi",
+                                            width: 300,
+                                            height: 150,
+                                            visible: true,
+                                            hideOnOutsideClick: true
+                                        })
                                     }
-                                    $("#popup").dxPopup({
-                                        contentTemplate: popupContentTemplate,
-                                        width: 300,
-                                        height: 280,
-                                        visible: true,
-                                        hideOnOutsideClick: true
-                                    });
-                                    const popup = $("#popup").dxPopup("instance");
-                                    popup.show();
+                                    else {
+                                        const newData = data
+                                        console.log(newData)
+                                        const popupContentTemplate = function() {
+                                            return $('<div>').append(
+                                                `<div><span class="fw-bold">Số công văn:</span> ${newData.soCongVan}</div>
+                                                <div><span class="fw-bold">Trích yếu:</span> ${newData.trichYeu}</div>
+                                                <div><span class="fw-bold">Số dịch vụ kê khai:</span> ${newData.soDvKeKhai}</div>
+                                                <div><span class="fw-bold">Ngày hiệu lực:</span> ${newData.ngayHieuLuc}</div>
+                                                <div><span class="fw-bold">Nguyên nhân, biến động:</span> ${newData.nguyenNhan}</div>
+                                                <div><span class="fw-bold">Chính sách:</span> ${newData.chinhSach}</div>`
+                                            )
+                                        }
+                                        $("#popup").dxPopup({
+                                            contentTemplate: popupContentTemplate,
+                                            title: "Thông tin đã gửi",
+                                            width: 350,
+                                            height: 280,
+                                            visible: true,
+                                            hideOnOutsideClick: true
+                                        });
+                                        const popup = $("#popup").dxPopup("instance");
+                                        popup.show();
+                                        dataGrid.getSelectedRowKeys().forEach((key) => {
+                                            dataStore.remove(key);
+                                        });
+                                        dataGrid.refresh();
+                                    }
                                 });
-                                dataGrid.getSelectedRowKeys().forEach((key) => {
-                                    dataStore.remove(key);
-                                });
-                                dataGrid.refresh();
                             },
                         }
                     }, {
@@ -240,14 +252,21 @@
                     dataField: "file",
                     caption: ""
                 }, {
-                    dataField: "soCongVan",
-                    caption: "Số công văn"
-                }, {
-                    dataField: "trichYeu",
-                    caption: "Trích yếu"
-                }, {
-                    dataField: "soDvKeKhai",
-                    caption: "Số DV kê khai"
+                    caption: 'Thông tin chung',  
+                    @* dataField: 'soCongVan, trichYeu, soDvKeKhai', *@
+                    allowSearch: true,
+                    @* calculateCellValue: function(rowData) {
+                        return `Số công văn: ${rowData.soCongVan}
+                                Trích yếu: ${rowData.trichYeu}
+                                Số DV kê khai: ${rowData.soDvKeKhai}`;  
+                    }, *@
+                    cellTemplate: function(element, info) {
+                        element.append(`
+                            <div><span class="fw-bold">Số công văn:</span> ${info.data.soCongVan}</div>
+                            <div><span class="fw-bold">Trích yếu:</span> ${info.data.trichYeu}</div>
+                            <div><span class="fw-bold">Số DV kê khai:</span> ${info.data.soDvKeKhai}</div>
+                        `)
+                    }
                 }, {
                     dataField: "ngayHieuLuc",
                     caption: "Ngày hiệu lực",
@@ -288,6 +307,7 @@
     // ----------------------------------------------------------------
     const data = [{
         id: 1,
+        status: 0,
         file: "",
         soCongVan: "0001",
         trichYeu: "Trích yếu 1",
@@ -297,6 +317,7 @@
         chinhSach: "Chính sách 1"
     }, {
         id: 2,
+        status: 1,
         file: "",
         soCongVan: "0002",
         trichYeu: "Trích yếu 2",
@@ -306,6 +327,7 @@
         chinhSach: "Chính sách 2"
     }, {
         id: 3,
+        status: 0,
         file: "",
         soCongVan: "0003",
         trichYeu: "Trích yếu 3",
@@ -315,6 +337,7 @@
         chinhSach: "Chính sách 3"
     }, {
         id: 4,
+        status: 1,
         file: "",
         soCongVan: "0004",
         trichYeu: "Trích yếu 4",
